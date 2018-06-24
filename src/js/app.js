@@ -1,4 +1,5 @@
 import { h, app } from 'hyperapp';
+import marked from 'marked';
 import '../scss/style.scss';
 
 const state = {
@@ -7,7 +8,7 @@ const state = {
 
 const actions = {
   setInput: input => state => ({
-    preview: input,
+    preview: marked(input),
   }),
 };
 
@@ -24,7 +25,7 @@ const view = (state, actions) => (
         </p>
       </section>
       <section id="previewHtml">
-        <div id="preview">{state.preview}</div>
+        <div id="preview" innerHTML={state.preview}></div>
       </section>
     </article>
   </div>
