@@ -2,6 +2,29 @@ import { h, app } from 'hyperapp';
 import marked from 'marked';
 import '../scss/style.scss';
 
+const editorItems = [
+  {
+    name: 'strong',
+    before: '**',
+    after: '**',
+  },
+  {
+    name: 'italic',
+    before: '*',
+    after: '*',
+  },
+  {
+    name: 'strikethrough',
+    before: '~~',
+    after: '~~',
+  },
+  {
+    name: 'link',
+    before: '[',
+    after: ']()',
+  },
+];
+
 const previewStyles = ['github', 'air'];
 const state = {
   preview: '',
@@ -15,6 +38,26 @@ const actions = {
   changeCss: input => state => ({
     previewStyle: input,
   }),
+  addEditorItem: itemType => (state, actions) => {
+    const editor = document.getElementById('editor');
+    const oldInput = editor.value;
+    const posStart = editor.selectionStart;
+    const posEnd = editor.selectionEnd;
+
+    editor.value = oldInput.substring(0, posStart)
+      + itemType.before
+      + oldInput.substring(posStart, posEnd)
+      + itemType.after
+      + oldInput.substring(posEnd, oldInput.length);
+
+    editor.focus();
+    editor.selectionStart = posStart + itemType.before.length;
+    editor.selectionEnd = posStart
+      + itemType.before.length
+      + oldInput.substring(posStart, posEnd).length;
+
+    actions.setInput(editor.value);
+  },
 };
 
 const view = (state, actions) => (
@@ -37,6 +80,17 @@ const view = (state, actions) => (
     </header>
     <article id="main">
       <section id="inputMarkdown">
+        <p id="editorButtons">
+          {editorItems.map(editorItem => (
+            <button
+              className={`editorButton ${editorItem.name}`}
+              value={editorItem.name}
+              onclick={e => {actions.addEditorItem(editorItem)}}
+            >
+              {editorItem.name}
+            </button>
+          ))}
+        </p>
         <p id="editorWrap">
           <textarea
             id="editor"
