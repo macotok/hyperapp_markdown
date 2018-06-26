@@ -1,5 +1,8 @@
 import { h, app } from 'hyperapp';
 import marked from 'marked';
+import Editor from './components/Editor';
+import Header from './components/Header';
+import Preview from './components/Preview';
 import '../scss/style.scss';
 
 const editorItems = [
@@ -62,46 +65,13 @@ const actions = {
 
 const view = (state, actions) => (
   <div>
-    <header id="header">
-      <h1>Hypertapp Markdown Editor</h1>
-      <p id="selectWrap">
-        <label>
-          CSS type :
-          <select
-            id="selectCss"
-            onchange={e => actions.changeCss(e.target.value)}
-          >
-            {previewStyles.map(previewStyle => (
-              <option value={previewStyle}>{previewStyle}</option>
-            ))}
-          </select>
-        </label>
-      </p>
-    </header>
+    <Header
+      previewStyles={previewStyles}
+      changeCss={actions.changeCss}
+    />
     <article id="main">
-      <section id="inputMarkdown">
-        <p id="editorButtons">
-          {editorItems.map(editorItem => (
-            <button
-              className={`editorButton ${editorItem.name}`}
-              value={editorItem.name}
-              onclick={e => {actions.addEditorItem(editorItem)}}
-            >
-              {editorItem.name}
-            </button>
-          ))}
-        </p>
-        <p id="editorWrap">
-          <textarea
-            id="editor"
-            placeholder="# input markdown"
-            oninput={e => actions.setInput(e.target.value)}
-          />
-        </p>
-      </section>
-      <section id="previewHtml">
-        <div id="preview" className={state.previewStyle} innerHTML={state.preview}></div>
-      </section>
+      <Editor editorItems={editorItems} actions={actions} />
+      <Preview state={state} />
     </article>
   </div>
 );

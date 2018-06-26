@@ -30,6 +30,7 @@
     "hyperapp": "^1.2.6",
     "marked": "^0.4.0",
     "node-sass": "^4.9.0",
+    "prop-types": "^15.6.2",
     "sass-loader": "^7.0.3",
     "serviceworker-webpack-plugin": "^1.0.0-alpha02",
     "style-loader": "^0.21.0",
