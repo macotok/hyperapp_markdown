@@ -1,9 +1,24 @@
 import { h, app } from 'hyperapp';
 import marked from 'marked';
+import highlight from 'highlight.js';
+import 'highlight.js/styles/atom-one-dark.css';
 import Editor from './components/Editor';
 import Header from './components/Header';
 import Preview from './components/Preview';
 import '../scss/style.scss';
+
+marked.setOptions({
+  gfm: true,
+  tables: true,
+  breaks: true,
+  pedantic: false,
+  sanitize: true,
+  smartLists: true,
+  smartypants: true,
+  highlight: code => (
+    highlight.highlightAuto(code).value
+  ),
+});
 
 const editorItems = [
   {
