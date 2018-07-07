@@ -76,6 +76,12 @@ const actions = {
 
     actions.setInput(editor.value);
   },
+  downloadFile: trigger => state => {
+    const inputText = document.getElementById('editor').value;
+    const file = new Blob([inputText], { type: 'text/markdown' })
+    const fileURL = URL.createObjectURL(file);
+    trigger.href = fileURL;
+  },
 };
 
 const view = (state, actions) => (

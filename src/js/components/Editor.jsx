@@ -13,6 +13,13 @@ const Editor = ({ editorItems, actions }) => (
           {editorItem.name}
         </button>
       ))}
+      <a
+        className="editorButton download"
+        download="inputMarkdown.md"
+        onclick={e => actions.downloadFile(e.target)}
+      >
+        downloadFile
+      </a>
     </p>
     <p id="editorWrap">
       <textarea
